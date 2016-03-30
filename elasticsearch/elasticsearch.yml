@@ -1,0 +1,5 @@
+threadpool:
+  search:
+     type: fixed
+     size: 4
+     queue_size: 5000
