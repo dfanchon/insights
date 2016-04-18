@@ -14,6 +14,6 @@ if [ "$1" = 'logstash' ]; then
 	set -- gosu logstash "$@"
 fi
 
-logstash agent -f /etc/logstash/conf.d/logstash.conf
+logstash -f /etc/logstash/conf.d/logstash.conf --log /var/log/logstash/logstash-shipper.log
 
 exec "$@"
