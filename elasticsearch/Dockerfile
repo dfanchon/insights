@@ -47,6 +47,8 @@ COPY config ./config
 VOLUME /usr/share/elasticsearch/data
 
 COPY entrypoint.sh /entrypoint.sh
+COPY create_template.sh /create_template.sh
 RUN chmod +x /*.sh
 EXPOSE 9200 9300
 ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["elasticsearch"]
