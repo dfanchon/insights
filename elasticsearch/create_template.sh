@@ -1,5 +1,5 @@
 
-curl -XDELETE http://localhost:9200/_template/http?pretty=true
+curl -XDELETE http://localhost:9200/_template/http-*
 
 echo
 echo "Deleted current http template..."
@@ -27,10 +27,19 @@ curl -XPUT http://localhost:9200/_template/http -d '
   			"userId": {"type": "string","index": "not_analyzed"},
   			"url": {"type": "string", "index": "not_analyzed", "copy_to": "urlPath"},
         "urlPath": {"type": "string"},
-        "geoip.location": {"type": "geo_point"},
-        "geoip.country_name": {"type": "string","index": "not_analyzed"},
-        "geoip.city_name": {"type": "string","index": "not_analyzed"},
-        "geoip.real_region_name": {"type": "string","index": "not_analyzed"}
+        "geoip": {
+          "dynamic": true,
+          "type": "object",
+          "properties": {
+            "ip": { "type": "ip", "doc_values": true },
+            "latitude": { "type": "float", "doc_values": true },
+            "location": { "type": "geo_point", "doc_values": true },
+            "longitude": { "type": "float", "doc_values": true },
+            "country_name": {"type": "string","index": "not_analyzed"},
+            "city_name": {"type": "string","index": "not_analyzed"},
+            "real_region_name": {"type": "string","index": "not_analyzed"}
+          }
+        }
   		}
     }
   }
