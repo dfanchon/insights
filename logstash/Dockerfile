@@ -37,11 +37,13 @@ RUN set -x \
 
 ENV PATH /opt/logstash/bin:$PATH
 
+
 COPY entrypoint.sh /entrypoint.sh
 COPY logstash.conf /etc/logstash/conf.d/logstash.conf
 
 RUN plugin install logstash-input-mongodb
 
+RUN mkdir /opt/logstash-mongodb
 RUN chmod +x /*.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
