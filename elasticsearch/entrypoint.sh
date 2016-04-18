@@ -39,3 +39,5 @@ curl -XPUT http://localhost:9200/_template/http -d '
 '
 echo
 echo "Done."
+
+exec "$@"
