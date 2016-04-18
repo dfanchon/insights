@@ -45,4 +45,4 @@ RUN plugin install logstash-input-mongodb
 RUN chmod +x /*.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["logstash", "agent"]
+CMD ["/usr/bin/tail", "-F", "/var/log/logstash/logstash-shipper.log"]
