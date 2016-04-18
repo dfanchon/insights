@@ -1,5 +1,7 @@
 #!/bin/bash
 
+/elasticsearch/bin/elasticsearch
+
 curl -XDELETE http://localhost:9200/_template/http?pretty=true
 
 echo
