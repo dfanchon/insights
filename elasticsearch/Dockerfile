@@ -1,5 +1,30 @@
-FROM elasticsearch:2.2
-COPY elasticsearch.yml /usr/share/elasticsearch/config/elasticsearch.yml
+# Pull base image.
+FROM dockerfile/java:oracle-java8
+
+ENV ES_PKG_NAME elasticsearch-1.5.0
+
+# Install Elasticsearch.
+RUN \
+  cd / && \
+  wget https://download.elasticsearch.org/elasticsearch/elasticsearch/$ES_PKG_NAME.tar.gz && \
+  tar xvzf $ES_PKG_NAME.tar.gz && \
+  rm -f $ES_PKG_NAME.tar.gz && \
+  mv /$ES_PKG_NAME /elasticsearch
+
+# Define mountable directories.
+VOLUME ["/data"]
+
+# Mount elasticsearch.yml config
+ADD elasticsearch.yml /elasticsearch/config/elasticsearch.yml
+
+# Define working directory.
+WORKDIR /data
+
+# Expose ports.
+EXPOSE 9200
+EXPOSE 9300
+
+# Define default command.
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /*.sh
 ENTRYPOINT ["/entrypoint.sh"]

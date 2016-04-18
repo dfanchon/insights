@@ -3,3 +3,8 @@ threadpool:
      type: fixed
      size: 4
      queue_size: 5000
+path:
+  data: /data/data
+  logs: /data/log
+  plugins: /data/plugins
+  work: /data/work
