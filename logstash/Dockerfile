@@ -42,5 +42,7 @@ COPY logstash.conf /etc/logstash/conf.d/logstash.conf
 
 RUN plugin install logstash-input-mongodb
 
+RUN chmod +x /*.sh
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["logstash", "agent"]
