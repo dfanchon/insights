@@ -1,27 +1,37 @@
-elasticsearch:
-  image: webtales/insights/elasticsearch
-  command: elasticsearch -Des.network.host=0.0.0.0
+ES-stackname:
+  image: 'webtales/dockercloud:insights-elasticsearch'
+  command: 'elasticsearch -Des.network.host=0.0.0.0'
+  expose:
+    - '9200'
   volumes:
-    - /insights/data:/usr/share/elasticsearch/data
-  ports:
-    - "9200:9200"
-logstash:
-  image: webtales/insights/logtstash
-  command: logstash -f /etc/logstash/conf.d/logstash.conf
-  ports:
-  - "5000:5000"
+    - '/var/cloud/elasticsearch/stackname:/usr/share/elasticsearch/data'
+INSIGHTS-stackname:
+  image: 'webtales/rubedo-ml:latest'
+  expose:
+    - '22'
+    - '8000'
   links:
-    - elasticsearch
-kibana:
-  image: kibana:4.4
-  command: bin/kibana plugin -i sample-plugin -u http://www.rubedo-project.org/rubedoconversion.zip
+    - 'ES-stackname:elasticsearch'
   ports:
-    - "5601:5601"
+    - '8080:8080'
+KIBANA-stackname:
+  image: 'kibana:5.0'
+  command: 'bin/kibana plugin -i sample-plugin -u http://www.rubedo-project.org/rubedoconversion.zip'
   links:
-    - elasticsearch
-nginx:
-  image: webtales/insights/nginx
+    - 'ES-stackname:elasticsearch'
   ports:
-    - "8000:80"
+    - '5601:5601'
+LOGSTASH-stackname:
+  image: 'webtales/dockercloud:insights-logstash'
+  environment:
+    - mongoURI=mongo_uri_connection
   links:
-    - kibana
+    - 'ES-stackname:elasticsearch'
+  ports:
+    - '5000:5000'
+nginx-stackname:
+  image: 'webtales/dockercloud:insights-nginx'
+  links:
+    - 'KIBANA-stackname:kibana'
+  ports:
+    - '8000:80'

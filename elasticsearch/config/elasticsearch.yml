@@ -4,3 +4,4 @@ threadpool:
      type: fixed
      size: 4
      queue_size: 5000
+path.repo: ["/usr/share/elasticsearch/backups"]

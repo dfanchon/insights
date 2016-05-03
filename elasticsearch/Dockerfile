@@ -40,6 +40,8 @@ RUN set -ex \
 	; do \
 		mkdir -p "$path"; \
 		chown -R elasticsearch:elasticsearch "$path"; \
+		mkdir -p "/usr/share/elasticsearch/backups"; \
+		chown -R elasticsearch:elasticsearch "/usr/share/elasticsearch/backups"; \
 	done
 
 COPY config ./config
